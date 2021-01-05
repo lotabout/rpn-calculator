@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -51,15 +52,15 @@ public class TokenizerImplTest {
 
     private static class SeparatorReader extends MockReader {
         @Override
-        public String getPattern() {
-            return "\\s+";
+        public Pattern getPattern() {
+            return Pattern.compile("\\s+");
         }
     }
 
     private static class NumberReader extends MockReader {
         @Override
-        public String getPattern() {
-            return "[+-]?\\d+(\\.\\d*)?";
+        public Pattern getPattern() {
+            return Pattern.compile("[+-]?\\d+(\\.\\d*)?");
         }
     }
 }

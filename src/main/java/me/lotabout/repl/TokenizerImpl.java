@@ -21,6 +21,7 @@ public class TokenizerImpl implements Tokenizer {
 
         String combinedPattern = readers.stream()
                 .map(OperatorReader::getPattern)
+                .map(Pattern::pattern)
                 .map(TokenizerImpl::escapeCapturingGroup)
                 .map(TokenizerImpl::groupPattern)
                 .collect(Collectors.joining("|"));
@@ -53,10 +54,6 @@ public class TokenizerImpl implements Tokenizer {
         public boolean hasNext() {
             if (!matchConsumed) {
                 return true;
-            }
-
-            if (matcher.hitEnd()) {
-                return false;
             }
 
             if (!matcher.find()) {
