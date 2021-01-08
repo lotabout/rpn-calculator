@@ -19,6 +19,13 @@
       <artifactId>lombok</artifactId>
       <version>1.18.10</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.pcollections</groupId>
+      <artifactId>pcollections</artifactId>
+      <version>3.1.4</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
