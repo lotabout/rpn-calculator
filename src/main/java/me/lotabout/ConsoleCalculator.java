@@ -20,7 +20,7 @@ import me.lotabout.tokenizer.RegexTokenizer;
 @Slf4j
 public class ConsoleCalculator {
   public static final String PROMPT =
-      "Type in PRNs(reverse polish notation) to start calculation, Ctrl-D to exit\n";
+      "Type in RRNs(Reverse Polish Notation) to start calculation, Ctrl-D to exit\n";
 
   public static void main(String[] args) {
     List<OperatorReader<RealNumber>> readers = loadReaderImplementations();
