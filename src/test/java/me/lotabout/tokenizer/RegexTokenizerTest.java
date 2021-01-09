@@ -5,7 +5,7 @@ import lombok.Data;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.Operator;
 import me.lotabout.repl.Tokenizer;
-import me.lotabout.repl.struct.CalContext;
+import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.TokenPos;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class RegexTokenizerTest {
         }
 
         @Override
-        public void execute(CalContext<Integer> calcCalContext) throws ExecutionException {
+        public void execute(CalcContext<Integer> calcCalcContext) throws ExecutionException {
         }
     }
 

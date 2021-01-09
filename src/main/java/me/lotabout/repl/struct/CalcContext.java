@@ -5,15 +5,15 @@ import org.pcollections.PStack;
 
 import java.util.Optional;
 
-public class CalContext<T> {
+public class CalcContext<T> {
     private final History<PStack<T>> history;
     private PStack<T> stack; // an immutable stack
 
-    public CalContext() {
+    public CalcContext() {
         this(1024);
     }
 
-    public CalContext(int historyCapacity) {
+    public CalcContext(int historyCapacity) {
         this.history = new History<>(historyCapacity);
         this.stack = ConsPStack.empty();
     }

@@ -1,7 +1,7 @@
 package me.lotabout.repl;
 
 import lombok.extern.slf4j.Slf4j;
-import me.lotabout.repl.struct.CalContext;
+import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 
 import java.util.Iterator;
@@ -12,12 +12,14 @@ import java.util.stream.Stream;
 public class REPL<T> {
     private final Tokenizer<T> tokenizer;
     private final Printer<T> printer;
-    private final CalContext<T> calContext;
+    private final CalcContext<T> calcContext;
+    private final OutputConsumer outputConsumer;
 
-    public REPL(Tokenizer<T> tokenizer, Printer<T> printer) {
+    public REPL(Tokenizer<T> tokenizer, Printer<T> printer, OutputConsumer outputConsumer) {
         this.tokenizer = tokenizer;
         this.printer = printer;
-        this.calContext = new CalContext<>();
+        this.outputConsumer = outputConsumer;
+        this.calcContext = new CalcContext<>();
     }
 
     /**
@@ -62,20 +64,20 @@ public class REPL<T> {
      */
     public boolean execute(Operator<T> op) {
         if (op.needToSaveResult()) {
-            this.calContext.checkpoint();
+            this.calcContext.checkpoint();
         }
 
         boolean exitNormally = true;
         try {
-            op.execute(this.calContext);
+            op.execute(this.calcContext);
         } catch (ExecutionException ex) {
-            this.printer.printError(op, ex);
+            outputConsumer.consume(this.printer.printError(op, ex));
             exitNormally = false;
         } catch (Exception ex) {
             log.error("error on execute op[{}, pos: {}]", op.getName(), op.getPosition(), ex);
             exitNormally = false;
         } finally {
-            this.printer.print(this.calContext);
+            outputConsumer.consume(this.printer.printContext(this.calcContext));
         }
 
         return exitNormally;

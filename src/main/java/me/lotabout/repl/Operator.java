@@ -1,6 +1,6 @@
 package me.lotabout.repl;
 
-import me.lotabout.repl.struct.CalContext;
+import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 
@@ -19,10 +19,10 @@ public interface Operator<T> {
     /**
      * Given calculation context, execute the operator
      *
-     * @param calcCalContext The stack context
+     * @param calcCalcContext The stack context
      * @throws ExecutionException Any error happened during execution
      */
-    void execute(CalContext<T> calcCalContext) throws ExecutionException;
+    void execute(CalcContext<T> calcCalcContext) throws ExecutionException;
 
     default boolean needToSaveResult() {
         return true;
