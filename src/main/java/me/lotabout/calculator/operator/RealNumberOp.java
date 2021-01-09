@@ -6,20 +6,20 @@ import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 
 public class RealNumberOp extends PositionedOp<RealNumber> {
-    private final RealNumber realNumber;
+  private final RealNumber realNumber;
 
-    public RealNumberOp(String numberString, TokenPos tokenPos) {
-        super(tokenPos);
-        this.realNumber = new RealNumber(Double.parseDouble(numberString));
-    }
+  public RealNumberOp(String numberString, TokenPos tokenPos) {
+    super(tokenPos);
+    this.realNumber = new RealNumber(Double.parseDouble(numberString));
+  }
 
-    @Override
-    public String getName() {
-        return "Number";
-    }
+  @Override
+  public String getName() {
+    return "Number";
+  }
 
-    @Override
-    public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
-        calcCalcContext.push(realNumber);
-    }
+  @Override
+  public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
+    calcCalcContext.push(realNumber);
+  }
 }

@@ -8,17 +8,17 @@ import me.lotabout.repl.struct.TokenPos;
 
 public class ClearOp extends PositionedOp<RealNumber> implements Operator<RealNumber> {
 
-    public ClearOp(TokenPos position) {
-        super(position);
-    }
+  public ClearOp(TokenPos position) {
+    super(position);
+  }
 
-    @Override
-    public String getName() {
-        return "clear";
-    }
+  @Override
+  public String getName() {
+    return "clear";
+  }
 
-    @Override
-    public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
-        calcCalcContext.clear();
-    }
+  @Override
+  public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
+    calcCalcContext.clear();
+  }
 }
