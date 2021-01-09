@@ -55,7 +55,8 @@ public class CalcContext<T> {
     /**
      * Clear all saved checkpoint
      */
-    public void clearHistory() {
+    public void clear() {
+        this.stack = ConsPStack.empty();
         this.history.clear();
     }
 

@@ -32,6 +32,6 @@ public class SimplePrinter<T> implements Printer<T> {
 
     @Override
     public String printError(Operator<T> op, ExecutionException ex) {
-        return String.format("operator %s (position: %s): %s", op.getName(), op.getPosition().getStart(), ex.getMessage());
+        return String.format("operator %s (position: %s): %s", op.getName(), op.getPosition().getStart() + 1, ex.getMessage());
     }
 }

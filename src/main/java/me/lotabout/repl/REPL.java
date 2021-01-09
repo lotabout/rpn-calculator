@@ -51,9 +51,10 @@ public class REPL<T> {
             Operator<T> op = iterator.next();
             boolean success = this.execute(op);
             if (!success) {
-                return;
+                break;
             }
         }
+        outputConsumer.consume(this.printer.printContext(this.calcContext));
     }
 
     /**
@@ -76,8 +77,6 @@ public class REPL<T> {
         } catch (Exception ex) {
             log.error("error on execute op[{}, pos: {}]", op.getName(), op.getPosition(), ex);
             exitNormally = false;
-        } finally {
-            outputConsumer.consume(this.printer.printContext(this.calcContext));
         }
 
         return exitNormally;
