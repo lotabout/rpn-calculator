@@ -21,6 +21,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.29</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.pcollections</groupId>
       <artifactId>pcollections</artifactId>
       <version>3.1.4</version>

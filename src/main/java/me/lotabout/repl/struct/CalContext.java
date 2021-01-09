@@ -1,19 +1,19 @@
-package me.lotabout.repl;
+package me.lotabout.repl.struct;
 
 import org.pcollections.ConsPStack;
 import org.pcollections.PStack;
 
 import java.util.Optional;
 
-public class Context<T> {
+public class CalContext<T> {
     private final History<PStack<T>> history;
     private PStack<T> stack; // an immutable stack
 
-    public Context() {
+    public CalContext() {
         this(1024);
     }
 
-    public Context(int historyCapacity) {
+    public CalContext(int historyCapacity) {
         this.history = new History<>(historyCapacity);
         this.stack = ConsPStack.empty();
     }

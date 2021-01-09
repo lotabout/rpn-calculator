@@ -1,4 +1,8 @@
-package me.lotabout.repl;
+package me.lotabout.tokenizer;
+
+import me.lotabout.repl.Operator;
+import me.lotabout.repl.struct.TokenPos;
+import me.lotabout.repl.Tokenizer;
 
 import java.util.*;
 import java.util.function.Function;
@@ -9,43 +13,43 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class TokenizerImpl implements Tokenizer {
+public class RegexTokenizer<T> implements Tokenizer<T> {
 
     private static final Pattern reCapturingGroup = Pattern.compile("(\\\\*)(\\(\\?<[^>]+>|\\((?!\\?))");
 
-    private final List<OperatorReader> readers;
+    private final List<OperatorReader<T>> readers;
     private final Pattern readerPattern;
 
-    public TokenizerImpl(List<OperatorReader> readers) {
+    public RegexTokenizer(List<OperatorReader<T>> readers) {
         this.readers = readers;
 
         String combinedPattern = readers.stream()
                 .map(OperatorReader::getPattern)
                 .map(Pattern::pattern)
-                .map(TokenizerImpl::escapeCapturingGroup)
-                .map(TokenizerImpl::groupPattern)
+                .map(RegexTokenizer::escapeCapturingGroup)
+                .map(RegexTokenizer::groupPattern)
                 .collect(Collectors.joining("|"));
         readerPattern = Pattern.compile(combinedPattern);
     }
 
     @Override
-    public Stream<Operator> tokenize(Stream<String> lines) {
+    public Stream<Operator<T>> tokenize(Stream<String> lines) {
         return lines.flatMap(this::extractOperator);
     }
 
-    private Stream<Operator> extractOperator(String line) {
+    private Stream<Operator<T>> extractOperator(String line) {
         // 1 2 + => [1, 2, +]
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(
-                new LineTokenizer(readerPattern.matcher(line), readers), Spliterator.ORDERED | Spliterator.NONNULL), false);
+                new LineTokenizer<>(readerPattern.matcher(line), readers), Spliterator.ORDERED | Spliterator.NONNULL), false);
     }
 
 
-    static class LineTokenizer implements Iterator<Operator> {
+    static class LineTokenizer<T> implements Iterator<Operator<T>> {
         private final Matcher matcher;
-        private final List<OperatorReader> readers;
+        private final List<OperatorReader<T>> readers;
         private boolean matchConsumed = true;
 
-        public LineTokenizer(Matcher matcher, List<OperatorReader> readers) {
+        public LineTokenizer(Matcher matcher, List<OperatorReader<T>> readers) {
             this.matcher = matcher;
             this.readers = readers;
         }
@@ -65,7 +69,7 @@ public class TokenizerImpl implements Tokenizer {
         }
 
         @Override
-        public Operator next() {
+        public Operator<T> next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -77,8 +81,9 @@ public class TokenizerImpl implements Tokenizer {
                     .orElseThrow(NoSuchElementException::new);
 
             matchConsumed = true;
-            OperatorReader reader = readers.get(group - 1);
-            return reader.createOperator(matcher.group(group), matcher.start(group), matcher.end(group));
+            OperatorReader<T> reader = readers.get(group - 1);
+            TokenPos position = new TokenPos(matcher.start(group), matcher.end(group));
+            return reader.createOperator(matcher.group(group), position);
         }
     }
 

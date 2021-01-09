@@ -1,4 +1,4 @@
-package me.lotabout.repl;
+package me.lotabout.repl.struct;
 
 import org.junit.Test;
 

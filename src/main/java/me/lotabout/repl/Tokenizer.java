@@ -2,7 +2,7 @@ package me.lotabout.repl;
 
 import java.util.stream.Stream;
 
-public interface Tokenizer {
+public interface Tokenizer<T> {
 
-    Stream<Operator> tokenize(Stream<String> lines);
+    Stream<Operator<T>> tokenize(Stream<String> lines);
 }

@@ -1,30 +1,83 @@
 package me.lotabout.repl;
 
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import me.lotabout.repl.struct.CalContext;
+import me.lotabout.repl.struct.ExecutionException;
+
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
-public class REPL {
-    private final Tokenizer tokenizer;
-    private final Evaluator evaluator;
-    private final Printer printer;
-    private final Context context;
+@Slf4j
+public class REPL<T> {
+    private final Tokenizer<T> tokenizer;
+    private final Printer<T> printer;
+    private final CalContext<T> calContext;
 
-    public REPL(Tokenizer tokenizer, Evaluator evaluator, Printer printer, Context context) {
+    public REPL(Tokenizer<T> tokenizer, Printer<T> printer) {
         this.tokenizer = tokenizer;
-        this.evaluator = evaluator;
         this.printer = printer;
-        this.context = context;
+        this.calContext = new CalContext<>();
     }
 
-    public void run(Stream<String> lines) {
+    /**
+     * Given a (finite/infinite) stream of lines, execute them one by one
+     */
+    public void executeLines(Stream<String> lines) {
         if (lines.isParallel()) {
             throw new IllegalArgumentException("input streams of REPL should not be parallel");
         }
+        lines.forEach(this::executeLine);
+    }
 
-        tokenizer.tokenize(lines)
-                .forEach(op -> {
-                    evaluator.evaluate(context, op);
-                    printer.print(context);
-                });
+    /**
+     * Given lines of inputs, execute them one by one
+     */
+    public void executeLines(List<String> lines) {
+        executeLines(lines.stream());
+    }
+
+    /**
+     * Given a line of inputs, tokenize the input line and execute operators parsed.
+     * If any the operator fails, discard the rest of operators.
+     *
+     * @param line input line contains operands and operators
+     */
+    public void executeLine(String line) {
+        Iterator<Operator<T>> iterator = tokenizer.tokenize(Stream.of(line)).iterator();
+        while (iterator.hasNext()) {
+            Operator<T> op = iterator.next();
+            boolean success = this.execute(op);
+            if (!success) {
+                return;
+            }
+        }
+    }
+
+    /**
+     * Execute an operator on REPL's context
+     *
+     * @param op the operator to be executed
+     * @return true if op exist normally, false otherwise
+     */
+    public boolean execute(Operator<T> op) {
+        if (op.needToSaveResult()) {
+            this.calContext.checkpoint();
+        }
+
+        boolean exitNormally = true;
+        try {
+            op.execute(this.calContext);
+        } catch (ExecutionException ex) {
+            this.printer.printError(op, ex);
+            exitNormally = false;
+        } catch (Exception ex) {
+            log.error("error on execute op[{}, pos: {}]", op.getName(), op.getPosition(), ex);
+            exitNormally = false;
+        } finally {
+            this.printer.print(this.calContext);
+        }
+
+        return exitNormally;
     }
 }

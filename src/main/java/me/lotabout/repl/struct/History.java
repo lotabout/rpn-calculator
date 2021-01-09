@@ -1,4 +1,4 @@
-package me.lotabout.repl;
+package me.lotabout.repl.struct;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

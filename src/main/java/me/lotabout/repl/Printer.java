@@ -1,7 +1,10 @@
 package me.lotabout.repl;
 
-public class Printer {
-    public void print(Context context) {
+import me.lotabout.repl.struct.CalContext;
+import me.lotabout.repl.struct.ExecutionException;
 
-    }
+public interface Printer<T> {
+    void print(CalContext<T> calContext);
+
+    void printError(Operator<T> op, ExecutionException ex);
 }
