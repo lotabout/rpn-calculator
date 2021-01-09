@@ -7,7 +7,7 @@ extensible and testable and fun.
 
 ```console
 $ mvn clean package
-$ java -jar target/prn-calculator-1.0-SNAPSHOT-jar-with-dependencies.jar
+$ java -jar target/rpn-calculator-1.0-SNAPSHOT-jar-with-dependencies.jar
 [main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.ClearOpReader
 [main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.DivideOpReader
 [main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.MinusOpReader
