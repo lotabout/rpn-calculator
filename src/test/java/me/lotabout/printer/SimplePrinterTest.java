@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import me.lotabout.repl.Operator;
 import me.lotabout.repl.Printer;
-import me.lotabout.repl.struct.CalcContext;
+import me.lotabout.repl.struct.DefaultContext;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class SimplePrinterTest {
 
   @Test
   public void printStack() {
-    CalcContext<Integer> context = new CalcContext<>();
+    DefaultContext<Integer> context = new DefaultContext<>();
     context.push(1);
     context.push(2);
     context.push(3);
@@ -25,7 +25,7 @@ public class SimplePrinterTest {
 
   @Test
   public void emptyStack() {
-    CalcContext<Integer> context = new CalcContext<>();
+    DefaultContext<Integer> context = new DefaultContext<>();
     assertEquals("stack:", printer.printContext(context));
   }
 

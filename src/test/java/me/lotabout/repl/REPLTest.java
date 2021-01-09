@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 import org.junit.Before;

@@ -1,6 +1,5 @@
 package me.lotabout.repl;
 
-import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 
 public interface Printer<T> {

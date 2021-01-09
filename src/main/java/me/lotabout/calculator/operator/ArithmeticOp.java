@@ -7,7 +7,7 @@ import java.util.stream.StreamSupport;
 import me.lotabout.calculator.RealNumber;
 import me.lotabout.calculator.RealNumberOperator;
 import me.lotabout.calculator.operator.exception.InsufficientParameters;
-import me.lotabout.repl.struct.CalcContext;
+import me.lotabout.repl.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 

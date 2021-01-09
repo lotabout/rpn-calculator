@@ -1,28 +1,29 @@
 package me.lotabout.repl.struct;
 
 import java.util.Optional;
+import me.lotabout.repl.CalcContext;
 import org.pcollections.ConsPStack;
 import org.pcollections.PStack;
 
-public class CalcContext<T> {
+public class DefaultContext<T> implements CalcContext<T> {
   private final History<PStack<T>> history;
   private PStack<T> stack; // an immutable stack
 
-  public CalcContext() {
+  public DefaultContext() {
     this(1024);
   }
 
-  public CalcContext(int historyCapacity) {
+  public DefaultContext(int historyCapacity) {
     this.history = new History<>(historyCapacity);
     this.stack = ConsPStack.empty();
   }
 
-  /** Get the inner stack, the last in item comes first */
+  @Override
   public Iterable<T> getStack() {
     return stack;
   }
 
-  /** pop out the item on the top of the stack */
+  @Override
   public Optional<T> pop() {
     if (this.stack.isEmpty()) {
       return Optional.empty();
@@ -33,28 +34,28 @@ public class CalcContext<T> {
     return Optional.of(ret);
   }
 
-  /** push the item on the top of the stack */
+  @Override
   public void push(T element) {
     this.stack = this.stack.plus(element);
   }
 
-  /** Save the current stack status for later undo/redo */
+  @Override
   public void checkpoint() {
     this.history.save(this.stack);
   }
 
-  /** Clear all saved checkpoint */
+  @Override
   public void clear() {
     this.stack = ConsPStack.empty();
     this.history.clear();
   }
 
-  /** set the stack to the latest saved history */
+  @Override
   public void undo() {
     this.stack = this.history.undo().orElseGet(ConsPStack::empty);
   }
 
-  /** undo the previous `undo` operation */
+  @Override
   public void redo() {
     this.history.redo().ifPresent(stack -> this.stack = stack);
   }

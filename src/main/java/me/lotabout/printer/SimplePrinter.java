@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import me.lotabout.repl.CalcContext;
 import me.lotabout.repl.Operator;
 import me.lotabout.repl.Printer;
-import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 
 public class SimplePrinter<T> implements Printer<T> {

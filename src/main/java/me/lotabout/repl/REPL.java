@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
-import me.lotabout.repl.struct.CalcContext;
+import me.lotabout.repl.struct.DefaultContext;
 import me.lotabout.repl.struct.ExecutionException;
 
 @Slf4j
@@ -15,10 +15,18 @@ public class REPL<T> {
   private final OutputConsumer outputConsumer;
 
   public REPL(Tokenizer<T> tokenizer, Printer<T> printer, OutputConsumer outputConsumer) {
+    this(new DefaultContext<>(), tokenizer, printer, outputConsumer);
+  }
+
+  public REPL(
+      CalcContext<T> context,
+      Tokenizer<T> tokenizer,
+      Printer<T> printer,
+      OutputConsumer outputConsumer) {
     this.tokenizer = tokenizer;
     this.printer = printer;
     this.outputConsumer = outputConsumer;
-    this.calcContext = new CalcContext<>();
+    this.calcContext = context;
   }
 
   /** Given a (finite/infinite) stream of lines, execute them one by one */
