@@ -18,6 +18,9 @@ import me.lotabout.tokenizer.RegexTokenizer;
 
 @Slf4j
 public class ConsoleCalculator {
+  public static final String PROMPT =
+      "Type in PRNs(reverse polish notation) to start calculation, Ctrl-D to exit\n";
+
   public static void main(String[] args) {
     List<OperatorReader<RealNumber>> readers = loadReaderImplementations();
     Tokenizer<RealNumber> tokenizer = new RegexTokenizer<>(readers);
@@ -25,8 +28,7 @@ public class ConsoleCalculator {
     OutputConsumer consumer = new ConsoleOutput();
     REPL<RealNumber> repl = new REPL<>(tokenizer, printer, consumer);
 
-    System.out.println(
-        "Type in PRNs(reverse polish notation) to start calculation, Ctrl-D to exit");
+    System.out.print(PROMPT);
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
     repl.executeLines(stdin.lines());
   }
