@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 import lombok.extern.slf4j.Slf4j;
 import me.lotabout.calculator.RealNumber;
+import me.lotabout.calculator.RealNumberOperatorReader;
 import me.lotabout.printer.ConsoleOutput;
 import me.lotabout.printer.SimplePrinter;
 import me.lotabout.repl.OutputConsumer;
@@ -35,9 +36,9 @@ public class ConsoleCalculator {
 
   private static List<OperatorReader<RealNumber>> loadReaderImplementations() {
     List<OperatorReader<RealNumber>> readers = new ArrayList<>();
-    for (OperatorReader reader : ServiceLoader.load(OperatorReader.class)) {
+    for (RealNumberOperatorReader reader : ServiceLoader.load(RealNumberOperatorReader.class)) {
       log.info("Loading Reader: " + reader.getClass().getName());
-      readers.add((OperatorReader<RealNumber>) reader);
+      readers.add(reader);
     }
 
     return readers;

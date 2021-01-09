@@ -5,7 +5,7 @@ import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 
-public class RealNumberOp extends PositionedOp<RealNumber> {
+public class RealNumberOp extends PositionedOp {
   private final RealNumber realNumber;
 
   public RealNumberOp(String numberString, TokenPos tokenPos) {

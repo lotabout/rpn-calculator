@@ -5,14 +5,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 import me.lotabout.calculator.RealNumber;
+import me.lotabout.calculator.RealNumberOperator;
 import me.lotabout.calculator.operator.exception.InsufficientParameters;
-import me.lotabout.repl.Operator;
 import me.lotabout.repl.struct.CalcContext;
 import me.lotabout.repl.struct.ExecutionException;
 import me.lotabout.repl.struct.TokenPos;
 
-public abstract class ArithmeticOp extends PositionedOp<RealNumber>
-    implements Operator<RealNumber> {
+public abstract class ArithmeticOp extends PositionedOp implements RealNumberOperator {
   protected ArithmeticOp(TokenPos position) {
     super(position);
   }
