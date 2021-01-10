@@ -1,8 +1,0 @@
-me.lotabout.calculator.reader.ClearOpReader
-me.lotabout.calculator.reader.DivideOpReader
-me.lotabout.calculator.reader.MinusOpReader
-me.lotabout.calculator.reader.MultiplyOpReader
-me.lotabout.calculator.reader.PlusOpReader
-me.lotabout.calculator.reader.RealNumberOpReader
-me.lotabout.calculator.reader.SqrtOpReader
-me.lotabout.calculator.reader.UndoOpReader

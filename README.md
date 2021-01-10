@@ -10,14 +10,14 @@ extensible and testable and fun.
 ```console
 $ mvn clean package
 $ java -jar target/rpn-calculator-1.0-SNAPSHOT-jar-with-dependencies.jar
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.ClearOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.DivideOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.MinusOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.MultiplyOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.PlusOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.RealNumberOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.SqrtOpReader
-[main] INFO me.lotabout.ConsoleCalculator - Loading Reader: me.lotabout.calculator.reader.UndoOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: ClearOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: DivideOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: MinusOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: MultiplyOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: PlusOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: RealNumberOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: SqrtOpReader
+[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: UndoOpReader
 Type in RRNs(reverse polish notation) to start calculation, Ctrl-D to exit
 4 5
 stack: 4 5
