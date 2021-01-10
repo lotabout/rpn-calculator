@@ -1,4 +1,4 @@
-package me.lotabout.rpn.calculator.printer;
+package me.lotabout.rpn.console;
 
 import me.lotabout.rpn.repl.OutputConsumer;
 

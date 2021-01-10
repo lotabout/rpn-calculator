@@ -9,7 +9,6 @@ import java.util.ServiceLoader;
 import lombok.extern.slf4j.Slf4j;
 import me.lotabout.rpn.calculator.operator.RealNumber;
 import me.lotabout.rpn.calculator.operator.RealNumberOperatorReader;
-import me.lotabout.rpn.calculator.printer.ConsoleOutput;
 import me.lotabout.rpn.calculator.printer.SimplePrinter;
 import me.lotabout.rpn.calculator.tokenizer.OperatorReader;
 import me.lotabout.rpn.calculator.tokenizer.RegexTokenizer;
