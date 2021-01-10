@@ -1,4 +1,4 @@
-package me.lotabout.rpn.calculator.operator.stackops;
+package me.lotabout.rpn.calculator.operator.math;
 
 import static org.junit.Assert.assertEquals;
 

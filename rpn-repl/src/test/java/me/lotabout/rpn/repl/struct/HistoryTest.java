@@ -2,6 +2,7 @@ package me.lotabout.rpn.repl.struct;
 
 import static org.junit.Assert.*;
 
+import me.lotabout.rpn.repl.context.History;
 import org.junit.Test;
 
 public class HistoryTest {

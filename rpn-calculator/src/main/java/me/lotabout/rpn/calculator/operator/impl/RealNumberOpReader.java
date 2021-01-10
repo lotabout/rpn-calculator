@@ -1,8 +1,7 @@
-package me.lotabout.rpn.calculator.reader;
+package me.lotabout.rpn.calculator.operator.impl;
 
 import java.util.regex.Pattern;
 import me.lotabout.rpn.calculator.operator.RealNumber;
-import me.lotabout.rpn.calculator.operator.RealNumberOp;
 import me.lotabout.rpn.calculator.operator.RealNumberOperatorReader;
 import me.lotabout.rpn.repl.Operator;
 import me.lotabout.rpn.repl.struct.TokenPos;

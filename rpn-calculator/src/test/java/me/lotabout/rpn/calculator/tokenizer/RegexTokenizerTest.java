@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import me.lotabout.rpn.repl.CalcContext;
 import me.lotabout.rpn.repl.Operator;
 import me.lotabout.rpn.repl.Tokenizer;
+import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.TokenPos;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class RegexTokenizerTest {
     }
 
     @Override
-    public void execute(CalcContext<Integer> calcCalcContext) throws ExecutionException {}
+    public void execute(REPLContext<Integer> calcREPLContext) throws ExecutionException {}
   }
 
   private abstract static class MockReader implements OperatorReader<Integer> {

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import java.util.Arrays;
 import java.util.Collections;
+import me.lotabout.rpn.repl.context.DefaultContext;
 import org.junit.Test;
 
 public class DefaultContextTest {

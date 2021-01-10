@@ -1,4 +1,4 @@
-package me.lotabout.rpn.repl.struct;
+package me.lotabout.rpn.repl.context;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

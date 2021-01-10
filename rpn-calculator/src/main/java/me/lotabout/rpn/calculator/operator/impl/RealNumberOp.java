@@ -1,6 +1,7 @@
-package me.lotabout.rpn.calculator.operator;
+package me.lotabout.rpn.calculator.operator.impl;
 
-import me.lotabout.rpn.repl.CalcContext;
+import me.lotabout.rpn.calculator.operator.RealNumber;
+import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.TokenPos;
 
@@ -18,7 +19,7 @@ public class RealNumberOp extends PositionedOp {
   }
 
   @Override
-  public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
-    calcCalcContext.push(realNumber);
+  public void execute(REPLContext<RealNumber> calcREPLContext) throws ExecutionException {
+    calcREPLContext.push(realNumber);
   }
 }

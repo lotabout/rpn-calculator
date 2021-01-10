@@ -4,14 +4,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
-import me.lotabout.rpn.repl.struct.DefaultContext;
+import me.lotabout.rpn.repl.context.DefaultContext;
+import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 
+/** Read-Evaluate-Print-Loop, main entry for driving the calculation process */
 @Slf4j
 public class REPL<T> {
   private final Tokenizer<T> tokenizer;
   private final Printer<T> printer;
-  private final CalcContext<T> calcContext;
+  private final REPLContext<T> REPLContext;
   private final OutputConsumer outputConsumer;
 
   public REPL(Tokenizer<T> tokenizer, Printer<T> printer, OutputConsumer outputConsumer) {
@@ -19,14 +21,14 @@ public class REPL<T> {
   }
 
   public REPL(
-      CalcContext<T> context,
+      REPLContext<T> context,
       Tokenizer<T> tokenizer,
       Printer<T> printer,
       OutputConsumer outputConsumer) {
     this.tokenizer = tokenizer;
     this.printer = printer;
     this.outputConsumer = outputConsumer;
-    this.calcContext = context;
+    this.REPLContext = context;
   }
 
   /** Given a (finite/infinite) stream of lines, execute them one by one */
@@ -57,7 +59,7 @@ public class REPL<T> {
         break;
       }
     }
-    outputConsumer.consume(this.printer.printContext(this.calcContext));
+    outputConsumer.consume(this.printer.printContext(this.REPLContext));
   }
 
   /**
@@ -68,12 +70,12 @@ public class REPL<T> {
    */
   public boolean execute(Operator<T> op) {
     if (op.needToSaveResult()) {
-      this.calcContext.checkpoint();
+      this.REPLContext.checkpoint();
     }
 
     boolean exitNormally = true;
     try {
-      op.execute(this.calcContext);
+      op.execute(this.REPLContext);
     } catch (ExecutionException ex) {
       outputConsumer.consume(this.printer.printError(op, ex));
       exitNormally = false;

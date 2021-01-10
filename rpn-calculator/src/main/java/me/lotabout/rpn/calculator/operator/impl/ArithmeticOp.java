@@ -1,11 +1,13 @@
-package me.lotabout.rpn.calculator.operator;
+package me.lotabout.rpn.calculator.operator.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
+import me.lotabout.rpn.calculator.operator.RealNumber;
+import me.lotabout.rpn.calculator.operator.RealNumberOperator;
 import me.lotabout.rpn.calculator.operator.exception.InsufficientParameters;
-import me.lotabout.rpn.repl.CalcContext;
+import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.TokenPos;
 
@@ -24,10 +26,10 @@ public abstract class ArithmeticOp extends PositionedOp implements RealNumberOpe
   protected abstract RealNumber executeInner(List<RealNumber> operands) throws ExecutionException;
 
   @Override
-  public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
+  public void execute(REPLContext<RealNumber> replContext) throws ExecutionException {
     int numOperands = this.getNumberOfOperands();
     List<RealNumber> operands =
-        StreamSupport.stream(calcCalcContext.getStack().spliterator(), false)
+        StreamSupport.stream(replContext.getStack().spliterator(), false)
             .limit(numOperands)
             .collect(Collectors.toList());
     if (operands.size() != numOperands) {
@@ -41,7 +43,7 @@ public abstract class ArithmeticOp extends PositionedOp implements RealNumberOpe
       throw new ExecutionException(ex.getMessage(), ex);
     }
 
-    IntStream.range(0, numOperands).forEach(_i -> calcCalcContext.pop());
-    calcCalcContext.push(result);
+    IntStream.range(0, numOperands).forEach(_i -> replContext.pop());
+    replContext.push(result);
   }
 }

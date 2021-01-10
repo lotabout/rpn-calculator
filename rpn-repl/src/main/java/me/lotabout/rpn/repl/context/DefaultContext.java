@@ -1,11 +1,10 @@
-package me.lotabout.rpn.repl.struct;
+package me.lotabout.rpn.repl.context;
 
 import java.util.Optional;
-import me.lotabout.rpn.repl.CalcContext;
 import org.pcollections.ConsPStack;
 import org.pcollections.PStack;
 
-public class DefaultContext<T> implements CalcContext<T> {
+public class DefaultContext<T> implements REPLContext<T> {
   private final History<PStack<T>> history;
   private PStack<T> stack; // an immutable stack
 

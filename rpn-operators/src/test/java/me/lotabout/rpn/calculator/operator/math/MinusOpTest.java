@@ -1,4 +1,4 @@
-package me.lotabout.rpn.calculator.operator.stackops;
+package me.lotabout.rpn.calculator.operator.math;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,21 +9,22 @@ import me.lotabout.rpn.calculator.operator.RealNumber;
 import me.lotabout.rpn.repl.struct.TokenPos;
 import org.junit.Test;
 
-public class PlusOpTest {
+public class MinusOpTest {
 
   @Test
   public void operandsNumberShouldBe2() {
-    PlusOp op = new PlusOp(new TokenPos(0, 1));
+    MinusOp op = new MinusOp(new TokenPos(0, 1));
     assertEquals(2, op.getNumberOfOperands());
   }
 
   @Test
-  public void plusShouldBeCorrect() {
-    PlusOp op = new PlusOp(new TokenPos(0, 1));
+  public void minusOrder() {
+    MinusOp op = new MinusOp(new TokenPos(0, 1));
 
-    List<RealNumber> operands =
-        Stream.of(0.5, 2D).map(RealNumber::new).collect(Collectors.toList());
+    // stack top: [1, 2]
+    // => 2 - 1
+    List<RealNumber> operands = Stream.of(1, 2).map(RealNumber::new).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
-    assertEquals(2.5D, result.getValue(), 1e-5);
+    assertEquals(1D, result.getValue(), 1e-5);
   }
 }

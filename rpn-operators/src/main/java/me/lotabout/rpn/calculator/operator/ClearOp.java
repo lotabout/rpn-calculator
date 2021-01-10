@@ -1,10 +1,11 @@
 package me.lotabout.rpn.calculator.operator;
 
-import me.lotabout.rpn.repl.CalcContext;
+import me.lotabout.rpn.calculator.operator.impl.HistoryOp;
+import me.lotabout.rpn.repl.context.HistoryContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.TokenPos;
 
-public class ClearOp extends PositionedOp implements RealNumberOperator {
+public class ClearOp extends HistoryOp {
 
   public ClearOp(TokenPos position) {
     super(position);
@@ -16,7 +17,7 @@ public class ClearOp extends PositionedOp implements RealNumberOperator {
   }
 
   @Override
-  public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
-    calcCalcContext.clear();
+  public void executeInner(HistoryContext context) throws ExecutionException {
+    context.clear();
   }
 }

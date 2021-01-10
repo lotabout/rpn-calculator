@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.TokenPos;
 import org.junit.Before;
@@ -68,8 +69,8 @@ public class REPLTest {
     }
 
     @Override
-    public void execute(CalcContext<Integer> calcCalcContext) throws ExecutionException {
-      calcCalcContext.push(num);
+    public void execute(REPLContext<Integer> calcREPLContext) throws ExecutionException {
+      calcREPLContext.push(num);
     }
   }
 
@@ -89,17 +90,17 @@ public class REPLTest {
     }
 
     @Override
-    public void execute(CalcContext<Integer> calcCalcContext) throws ExecutionException {
+    public void execute(REPLContext<Integer> calcREPLContext) throws ExecutionException {
       Integer left =
-          calcCalcContext
+          calcREPLContext
               .pop()
               .orElseThrow(() -> new ExecutionException("insufficient parameters"));
       Integer right =
-          calcCalcContext
+          calcREPLContext
               .pop()
               .orElseThrow(() -> new ExecutionException("insufficient parameters"));
 
-      calcCalcContext.push(left + right);
+      calcREPLContext.push(left + right);
     }
   }
 }

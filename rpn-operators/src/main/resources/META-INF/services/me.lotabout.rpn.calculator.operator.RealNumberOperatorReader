@@ -3,6 +3,5 @@ me.lotabout.rpn.calculator.reader.DivideOpReader
 me.lotabout.rpn.calculator.reader.MinusOpReader
 me.lotabout.rpn.calculator.reader.MultiplyOpReader
 me.lotabout.rpn.calculator.reader.PlusOpReader
-me.lotabout.rpn.calculator.reader.RealNumberOpReader
 me.lotabout.rpn.calculator.reader.SqrtOpReader
 me.lotabout.rpn.calculator.reader.UndoOpReader

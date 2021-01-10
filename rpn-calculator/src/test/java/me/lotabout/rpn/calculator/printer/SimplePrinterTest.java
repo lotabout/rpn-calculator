@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import me.lotabout.rpn.repl.Operator;
 import me.lotabout.rpn.repl.Printer;
-import me.lotabout.rpn.repl.struct.DefaultContext;
+import me.lotabout.rpn.repl.context.DefaultContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.TokenPos;
 import org.junit.Test;

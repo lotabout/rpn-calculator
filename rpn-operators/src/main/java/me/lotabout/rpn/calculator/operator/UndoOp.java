@@ -1,27 +1,22 @@
 package me.lotabout.rpn.calculator.operator;
 
-import me.lotabout.rpn.repl.CalcContext;
-import me.lotabout.rpn.repl.struct.ExecutionException;
+import me.lotabout.rpn.calculator.operator.impl.HistoryOp;
+import me.lotabout.rpn.repl.context.HistoryContext;
 import me.lotabout.rpn.repl.struct.TokenPos;
 
-public class UndoOp extends PositionedOp implements RealNumberOperator {
+public class UndoOp extends HistoryOp {
 
   public UndoOp(TokenPos position) {
     super(position);
   }
 
   @Override
+  protected void executeInner(HistoryContext context) {
+    context.undo();
+  }
+
+  @Override
   public String getName() {
     return "undo";
-  }
-
-  @Override
-  public void execute(CalcContext<RealNumber> calcCalcContext) throws ExecutionException {
-    calcCalcContext.undo();
-  }
-
-  @Override
-  public boolean needToSaveResult() {
-    return false;
   }
 }
