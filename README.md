@@ -32,7 +32,6 @@ stack:
 ## Features
 
 * History Manipulation, could `undo` operations and `clear` stack:
-
     ```console
     1 2 +
     stack: 3
@@ -43,13 +42,25 @@ stack:
     5 -
     stack: 3 -1
     ```
-
 * Easy for extending operators
     * New operators could simply provide a regex for parsing.
     * With the help of SPI, no need to modify existing code for adding operators
-
 * Pluggable Components for making your own calculator. The calculator is
   divided into 3 major components, all of them are customizable:
     * `Tokenizer` for lexing: parsing input lines into operators/tokens.
     * `Printer` for representing the calculation context, e.g. the stack of numbers.
     * `OutputConsumer` for actually output the representation. The output goes to console by default.
+
+## Show me the code
+
+- `rpn-repl`: contains the abstractions of a REPL, and a default implementation of REPLContext that handles stack and
+  history manipulation.
+- `rpn-calculator`:
+  * implement calculator's own `printer` and `tokenizer`
+  * implement `RealNumber`, the main operand of operators
+  * abstraction of `RealNumberOperator` and `RealNumberOperatorReader`
+  * abstractions of `ArithmeticOp` and `HistoryOp`
+- `rpn-operators`: pluggable package that implement operators and operator readers.
+- `rpn-console-calculator`:
+  * implement console based read/write utility
+  * create instances of components and wire them up.
