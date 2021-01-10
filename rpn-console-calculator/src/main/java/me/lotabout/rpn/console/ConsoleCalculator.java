@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 import lombok.extern.slf4j.Slf4j;
-import me.lotabout.rpn.calculator.RealNumber;
-import me.lotabout.rpn.calculator.RealNumberOperatorReader;
-import me.lotabout.rpn.printer.ConsoleOutput;
-import me.lotabout.rpn.printer.SimplePrinter;
+import me.lotabout.rpn.calculator.operator.RealNumber;
+import me.lotabout.rpn.calculator.operator.RealNumberOperatorReader;
+import me.lotabout.rpn.calculator.printer.ConsoleOutput;
+import me.lotabout.rpn.calculator.printer.SimplePrinter;
+import me.lotabout.rpn.calculator.tokenizer.OperatorReader;
+import me.lotabout.rpn.calculator.tokenizer.RegexTokenizer;
 import me.lotabout.rpn.repl.OutputConsumer;
 import me.lotabout.rpn.repl.Printer;
 import me.lotabout.rpn.repl.REPL;
 import me.lotabout.rpn.repl.Tokenizer;
-import me.lotabout.rpn.tokenizer.OperatorReader;
-import me.lotabout.rpn.tokenizer.RegexTokenizer;
 
 @Slf4j
 public class ConsoleCalculator {

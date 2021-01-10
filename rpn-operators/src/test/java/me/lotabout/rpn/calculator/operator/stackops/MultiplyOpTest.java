@@ -5,8 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import me.lotabout.rpn.calculator.RealNumber;
-import me.lotabout.rpn.calculator.operator.stackops.MultiplyOp;
+import me.lotabout.rpn.calculator.operator.RealNumber;
 import me.lotabout.rpn.repl.struct.TokenPos;
 import org.junit.Test;
 

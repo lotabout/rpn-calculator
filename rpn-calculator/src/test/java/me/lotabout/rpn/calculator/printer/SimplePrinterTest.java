@@ -1,4 +1,4 @@
-package me.lotabout.rpn.printer;
+package me.lotabout.rpn.calculator.printer;
 
 import static org.junit.Assert.assertEquals;
 

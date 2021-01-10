@@ -1,4 +1,4 @@
-package me.lotabout.rpn.tokenizer;
+package me.lotabout.rpn.calculator.tokenizer;
 
 import static org.junit.Assert.assertEquals;
 

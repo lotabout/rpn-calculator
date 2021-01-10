@@ -6,8 +6,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-
-import me.lotabout.rpn.console.ConsoleCalculator;
 import org.junit.Test;
 
 public class ConsoleCalculatorTest {

@@ -1,4 +1,4 @@
-package me.lotabout.rpn.printer;
+package me.lotabout.rpn.calculator.printer;
 
 import java.util.Collections;
 import java.util.List;

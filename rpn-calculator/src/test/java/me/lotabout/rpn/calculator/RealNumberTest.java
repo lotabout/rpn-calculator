@@ -2,6 +2,7 @@ package me.lotabout.rpn.calculator;
 
 import static org.junit.Assert.assertEquals;
 
+import me.lotabout.rpn.calculator.operator.RealNumber;
 import org.junit.Test;
 
 public class RealNumberTest {
