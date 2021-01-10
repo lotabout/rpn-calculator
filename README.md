@@ -1,3 +1,5 @@
+![Build](https://github.com/lotabout/rpn-calculator/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 # RPN(Reverse Polish Notation) Calculator
 
 A Command-Line based RPN calculator. Main goal is to be maintainable,
