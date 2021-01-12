@@ -7,7 +7,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class ConsoleCalculatorTest {
 
   @Test

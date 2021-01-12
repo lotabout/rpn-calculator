@@ -1,12 +1,14 @@
 package me.lotabout.rpn.repl.context;
 
+import java.util.List;
 import java.util.Optional;
+import me.lotabout.rpn.repl.struct.RealNumber;
 import org.pcollections.ConsPStack;
 import org.pcollections.PStack;
 
-public class DefaultContext<T> implements REPLContext<T> {
-  private final History<PStack<T>> history;
-  private PStack<T> stack; // an immutable stack
+public class DefaultContext implements REPLContext {
+  private final History<PStack<RealNumber>> history;
+  private PStack<RealNumber> stack; // an immutable stack
 
   public DefaultContext() {
     this(1024);
@@ -18,23 +20,23 @@ public class DefaultContext<T> implements REPLContext<T> {
   }
 
   @Override
-  public Iterable<T> getStack() {
+  public List<RealNumber> getStack() {
     return stack;
   }
 
   @Override
-  public Optional<T> pop() {
+  public Optional<RealNumber> pop() {
     if (this.stack.isEmpty()) {
       return Optional.empty();
     }
 
-    T ret = this.stack.get(0);
+    RealNumber ret = this.stack.get(0);
     this.stack = this.stack.minus(0);
     return Optional.of(ret);
   }
 
   @Override
-  public void push(T element) {
+  public void push(RealNumber element) {
     this.stack = this.stack.plus(element);
   }
 

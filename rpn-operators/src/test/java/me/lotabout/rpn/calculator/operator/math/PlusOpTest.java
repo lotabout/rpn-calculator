@@ -5,21 +5,20 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import me.lotabout.rpn.calculator.operator.RealNumber;
-import me.lotabout.rpn.repl.struct.TokenPos;
+import me.lotabout.rpn.repl.struct.RealNumber;
 import org.junit.Test;
 
 public class PlusOpTest {
 
   @Test
   public void operandsNumberShouldBe2() {
-    PlusOp op = new PlusOp(new TokenPos(0, 1));
+    PlusOp op = new PlusOp();
     assertEquals(2, op.getNumberOfOperands());
   }
 
   @Test
   public void plusShouldBeCorrect() {
-    PlusOp op = new PlusOp(new TokenPos(0, 1));
+    PlusOp op = new PlusOp();
 
     List<RealNumber> operands =
         Stream.of(0.5, 2D).map(RealNumber::new).collect(Collectors.toList());

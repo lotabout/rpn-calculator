@@ -1,14 +1,11 @@
-package me.lotabout.rpn.calculator.operator;
+package me.lotabout.rpn.calculator.operator.history;
 
-import me.lotabout.rpn.calculator.operator.impl.HistoryOp;
+import me.lotabout.rpn.calculator.operator.HistoryOp;
 import me.lotabout.rpn.repl.context.HistoryContext;
-import me.lotabout.rpn.repl.struct.TokenPos;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UndoOp extends HistoryOp {
-
-  public UndoOp(TokenPos position) {
-    super(position);
-  }
 
   @Override
   protected void executeInner(HistoryContext context) {

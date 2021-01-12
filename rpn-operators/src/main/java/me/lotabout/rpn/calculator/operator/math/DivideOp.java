@@ -1,15 +1,13 @@
 package me.lotabout.rpn.calculator.operator.math;
 
 import java.util.List;
-import me.lotabout.rpn.calculator.operator.RealNumber;
-import me.lotabout.rpn.calculator.operator.impl.ArithmeticOp;
+import me.lotabout.rpn.calculator.operator.ArithmeticOp;
 import me.lotabout.rpn.repl.struct.ExecutionException;
-import me.lotabout.rpn.repl.struct.TokenPos;
+import me.lotabout.rpn.repl.struct.RealNumber;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DivideOp extends ArithmeticOp {
-  public DivideOp(TokenPos position) {
-    super(position);
-  }
 
   @Override
   protected int getNumberOfOperands() {
@@ -27,6 +25,6 @@ public class DivideOp extends ArithmeticOp {
 
   @Override
   public String getName() {
-    return null;
+    return "/";
   }
 }

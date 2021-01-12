@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>me.lotabout</groupId>
-            <artifactId>rpn-calculator</artifactId>
+            <artifactId>rpn-repl</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

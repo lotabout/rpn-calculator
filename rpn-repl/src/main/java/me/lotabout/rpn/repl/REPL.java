@@ -1,47 +1,32 @@
 package me.lotabout.rpn.repl;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import me.lotabout.rpn.repl.context.DefaultContext;
 import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
+import me.lotabout.rpn.repl.struct.Token;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /** Read-Evaluate-Print-Loop, main entry for driving the calculation process */
 @Slf4j
-public class REPL<T> {
-  private final Tokenizer<T> tokenizer;
-  private final Printer<T> printer;
-  private final REPLContext<T> REPLContext;
-  private final OutputConsumer outputConsumer;
+@Service
+public class REPL {
+  private final Tokenizer tokenizer;
+  private final Formatter formatter;
+  private final REPLContext REPLContext;
+  private final Printer printer;
 
-  public REPL(Tokenizer<T> tokenizer, Printer<T> printer, OutputConsumer outputConsumer) {
-    this(new DefaultContext<>(), tokenizer, printer, outputConsumer);
+  @Autowired
+  public REPL(Tokenizer tokenizer, Formatter formatter, Printer printer) {
+    this(new DefaultContext(), tokenizer, formatter, printer);
   }
 
-  public REPL(
-      REPLContext<T> context,
-      Tokenizer<T> tokenizer,
-      Printer<T> printer,
-      OutputConsumer outputConsumer) {
+  public REPL(REPLContext context, Tokenizer tokenizer, Formatter formatter, Printer printer) {
     this.tokenizer = tokenizer;
+    this.formatter = formatter;
     this.printer = printer;
-    this.outputConsumer = outputConsumer;
     this.REPLContext = context;
-  }
-
-  /** Given a (finite/infinite) stream of lines, execute them one by one */
-  public void executeLines(Stream<String> lines) {
-    if (lines.isParallel()) {
-      throw new IllegalArgumentException("input streams of REPL should not be parallel");
-    }
-    lines.forEach(this::executeLine);
-  }
-
-  /** Given lines of inputs, execute them one by one */
-  public void executeLines(List<String> lines) {
-    executeLines(lines.stream());
   }
 
   /**
@@ -51,36 +36,47 @@ public class REPL<T> {
    * @param line input line contains operands and operators
    */
   public void executeLine(String line) {
-    Iterator<Operator<T>> iterator = tokenizer.tokenize(Stream.of(line)).iterator();
-    while (iterator.hasNext()) {
-      Operator<T> op = iterator.next();
-      boolean success = this.execute(op);
+    for (Token token : tokenizer.tokenize(line)) {
+      boolean success = this.execute(token);
       if (!success) {
         break;
       }
     }
-    outputConsumer.consume(this.printer.printContext(this.REPLContext));
+    printer.print(this.formatter.formatContext(this.REPLContext));
   }
 
   /**
    * Execute an operator on REPL's context
    *
-   * @param op the operator to be executed
+   * @param token the token to be executed
    * @return true if op exist normally, false otherwise
    */
-  public boolean execute(Operator<T> op) {
-    if (op.needToSaveResult()) {
+  public boolean execute(Token token) {
+    Operator op = token.getOperator();
+
+    if (op != null && op.needToSaveResult()) {
       this.REPLContext.checkpoint();
     }
 
     boolean exitNormally = true;
     try {
+      if (op == null) {
+        throw new ExecutionException(
+            String.format(
+                "unknown operator[%s, pos: %d~%d]",
+                token.getName(), token.getTokenStart(), token.getTokenEnd()));
+      }
       op.execute(this.REPLContext);
     } catch (ExecutionException ex) {
-      outputConsumer.consume(this.printer.printError(op, ex));
+      printer.print(this.formatter.formatError(token, ex));
       exitNormally = false;
     } catch (Exception ex) {
-      log.error("error on execute op[{}, pos: {}]", op.getName(), op.getPosition(), ex);
+      log.error(
+          "error on execute op[{}, pos: {}/{}]",
+          token.getName(),
+          token.getTokenStart(),
+          token.getTokenEnd(),
+          ex);
       exitNormally = false;
     }
 

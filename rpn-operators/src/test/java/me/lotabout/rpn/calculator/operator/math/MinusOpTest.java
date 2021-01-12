@@ -5,21 +5,20 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import me.lotabout.rpn.calculator.operator.RealNumber;
-import me.lotabout.rpn.repl.struct.TokenPos;
+import me.lotabout.rpn.repl.struct.RealNumber;
 import org.junit.Test;
 
 public class MinusOpTest {
 
   @Test
   public void operandsNumberShouldBe2() {
-    MinusOp op = new MinusOp(new TokenPos(0, 1));
+    MinusOp op = new MinusOp();
     assertEquals(2, op.getNumberOfOperands());
   }
 
   @Test
   public void minusOrder() {
-    MinusOp op = new MinusOp(new TokenPos(0, 1));
+    MinusOp op = new MinusOp();
 
     // stack top: [1, 2]
     // => 2 - 1

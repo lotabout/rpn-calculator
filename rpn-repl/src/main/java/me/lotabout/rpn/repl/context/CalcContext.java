@@ -1,14 +1,16 @@
 package me.lotabout.rpn.repl.context;
 
+import java.util.List;
 import java.util.Optional;
+import me.lotabout.rpn.repl.struct.RealNumber;
 
-public interface CalcContext<T> {
+public interface CalcContext {
   /** Get the inner stack, the last in item comes first */
-  Iterable<T> getStack();
+  List<RealNumber> getStack();
 
   /** pop out the item on the top of the stack */
-  Optional<T> pop();
+  Optional<RealNumber> pop();
 
   /** push the item on the top of the stack */
-  void push(T element);
+  void push(RealNumber element);
 }

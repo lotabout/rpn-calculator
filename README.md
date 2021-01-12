@@ -56,7 +56,7 @@ stack:
 - `rpn-repl`: contains the abstractions of a REPL, and a default implementation of REPLContext that handles stack and
   history manipulation.
 - `rpn-calculator`:
-  * implement calculator's own `printer` and `tokenizer`
+  * implement calculator's own `formatter` and `tokenizer`
   * implement `RealNumber`, the main operand of operators
   * abstraction of `RealNumberOperator` and `RealNumberOperatorReader`
   * abstractions of `ArithmeticOp` and `HistoryOp`
@@ -64,3 +64,13 @@ stack:
 - `rpn-console-calculator`:
   * implement console based read/write utility
   * create instances of components and wire them up.
+
+## ChangeLog
+
+### 2012-01-12
+
+- Introduce Spring and replace SPI with Spring's autowire.
+- Realize that `Operator` is stateless. That means a single bean is enough, remove `OperatorReader`s.
+- Introduce wrapper class `Token` that wraps positions and `Operator` to be executed.
+- Make `Context` specific, because it's too complex and unnecessary to introduce generic.
+- Replace `RegexTokenizer` with a simple space-separated one.

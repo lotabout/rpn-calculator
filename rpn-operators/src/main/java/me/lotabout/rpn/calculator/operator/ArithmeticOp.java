@@ -1,20 +1,15 @@
-package me.lotabout.rpn.calculator.operator.impl;
+package me.lotabout.rpn.calculator.operator;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.StreamSupport;
-import me.lotabout.rpn.calculator.operator.RealNumber;
-import me.lotabout.rpn.calculator.operator.RealNumberOperator;
 import me.lotabout.rpn.calculator.operator.exception.InsufficientParameters;
+import me.lotabout.rpn.repl.Operator;
 import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
-import me.lotabout.rpn.repl.struct.TokenPos;
+import me.lotabout.rpn.repl.struct.RealNumber;
 
-public abstract class ArithmeticOp extends PositionedOp implements RealNumberOperator {
-  protected ArithmeticOp(TokenPos position) {
-    super(position);
-  }
+public abstract class ArithmeticOp implements Operator {
 
   protected abstract int getNumberOfOperands();
 
@@ -26,12 +21,10 @@ public abstract class ArithmeticOp extends PositionedOp implements RealNumberOpe
   protected abstract RealNumber executeInner(List<RealNumber> operands) throws ExecutionException;
 
   @Override
-  public void execute(REPLContext<RealNumber> replContext) throws ExecutionException {
+  public void execute(REPLContext replContext) throws ExecutionException {
     int numOperands = this.getNumberOfOperands();
     List<RealNumber> operands =
-        StreamSupport.stream(replContext.getStack().spliterator(), false)
-            .limit(numOperands)
-            .collect(Collectors.toList());
+        replContext.getStack().stream().limit(numOperands).collect(Collectors.toList());
     if (operands.size() != numOperands) {
       throw new InsufficientParameters();
     }

@@ -1,8 +1,8 @@
 package me.lotabout.rpn.repl;
 
-import java.util.stream.Stream;
+import java.util.List;
+import me.lotabout.rpn.repl.struct.Token;
 
-public interface Tokenizer<T> {
-
-  Stream<Operator<T>> tokenize(Stream<String> lines);
+public interface Tokenizer {
+  List<Token> tokenize(String line);
 }

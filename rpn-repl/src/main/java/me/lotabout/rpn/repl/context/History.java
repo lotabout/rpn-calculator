@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
 
-/** A bounded ring buffer for saving history (LILO). */
+/** A bounded ring buffer for saving history and recovering from history (LILO). */
 public class History<T> {
   private final int capacity;
   private final Deque<T> undoDeque; // LILO
