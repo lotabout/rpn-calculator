@@ -1,5 +1,6 @@
 package me.lotabout.rpn.repl.struct;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -19,13 +20,21 @@ public class RealNumber {
             return ret;
           });
 
-  private final double value;
+  private final BigDecimal value;
 
-  public RealNumber(double value) {
+  public RealNumber(BigDecimal value) {
     this.value = value;
   }
 
-  public double getValue() {
+  public static RealNumber valueOf(String value) {
+    return new RealNumber(new BigDecimal(value));
+  }
+
+  public static RealNumber valueOf(long value) {
+    return new RealNumber(BigDecimal.valueOf(value));
+  }
+
+  public BigDecimal getValue() {
     return this.value;
   }
 

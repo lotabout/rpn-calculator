@@ -14,53 +14,60 @@ public class DefaultContextTest {
   public void stackShouldWork() {
     DefaultContext defaultContext = new DefaultContext();
     assertFalse(defaultContext.pop().isPresent());
-    defaultContext.push(new RealNumber(1));
-    defaultContext.push(new RealNumber(2));
-    assertEquals(Arrays.asList(new RealNumber(2), new RealNumber(1)), defaultContext.getStack());
+    defaultContext.push(RealNumber.valueOf(1));
+    defaultContext.push(RealNumber.valueOf(2));
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(2), RealNumber.valueOf(1)), defaultContext.getStack());
   }
 
   @Test
   public void undoRedoShouldWork() {
     DefaultContext defaultContext = new DefaultContext();
     assertFalse(defaultContext.pop().isPresent());
-    defaultContext.push(new RealNumber(1));
-    defaultContext.push(new RealNumber(2));
+    defaultContext.push(RealNumber.valueOf(1));
+    defaultContext.push(RealNumber.valueOf(2));
     defaultContext.checkpoint();
-    assertEquals(Arrays.asList(new RealNumber(2), new RealNumber(1)), defaultContext.getStack());
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(2), RealNumber.valueOf(1)), defaultContext.getStack());
     defaultContext.pop();
-    defaultContext.push(new RealNumber(3));
-    defaultContext.checkpoint();
-    assertEquals(Arrays.asList(new RealNumber(3), new RealNumber(1)), defaultContext.getStack());
-    defaultContext.push(new RealNumber(4));
+    defaultContext.push(RealNumber.valueOf(3));
     defaultContext.checkpoint();
     assertEquals(
-        Arrays.asList(new RealNumber(4), new RealNumber(3), new RealNumber(1)),
+        Arrays.asList(RealNumber.valueOf(3), RealNumber.valueOf(1)), defaultContext.getStack());
+    defaultContext.push(RealNumber.valueOf(4));
+    defaultContext.checkpoint();
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(4), RealNumber.valueOf(3), RealNumber.valueOf(1)),
         defaultContext.getStack());
 
     defaultContext.undo();
     assertEquals(
-        Arrays.asList(new RealNumber(4), new RealNumber(3), new RealNumber(1)),
+        Arrays.asList(RealNumber.valueOf(4), RealNumber.valueOf(3), RealNumber.valueOf(1)),
         defaultContext.getStack());
     defaultContext.undo();
-    assertEquals(Arrays.asList(new RealNumber(3), new RealNumber(1)), defaultContext.getStack());
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(3), RealNumber.valueOf(1)), defaultContext.getStack());
     defaultContext.undo();
-    assertEquals(Arrays.asList(new RealNumber(2), new RealNumber(1)), defaultContext.getStack());
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(2), RealNumber.valueOf(1)), defaultContext.getStack());
     defaultContext.undo();
     assertEquals(Collections.emptyList(), defaultContext.getStack());
     defaultContext.undo();
     assertEquals(Collections.emptyList(), defaultContext.getStack());
 
     defaultContext.redo();
-    assertEquals(Arrays.asList(new RealNumber(2), new RealNumber(1)), defaultContext.getStack());
-    defaultContext.redo();
-    assertEquals(Arrays.asList(new RealNumber(3), new RealNumber(1)), defaultContext.getStack());
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(2), RealNumber.valueOf(1)), defaultContext.getStack());
     defaultContext.redo();
     assertEquals(
-        Arrays.asList(new RealNumber(4), new RealNumber(3), new RealNumber(1)),
+        Arrays.asList(RealNumber.valueOf(3), RealNumber.valueOf(1)), defaultContext.getStack());
+    defaultContext.redo();
+    assertEquals(
+        Arrays.asList(RealNumber.valueOf(4), RealNumber.valueOf(3), RealNumber.valueOf(1)),
         defaultContext.getStack());
     defaultContext.redo();
     assertEquals(
-        Arrays.asList(new RealNumber(4), new RealNumber(3), new RealNumber(1)),
+        Arrays.asList(RealNumber.valueOf(4), RealNumber.valueOf(3), RealNumber.valueOf(1)),
         defaultContext.getStack());
   }
 }

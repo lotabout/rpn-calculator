@@ -1,6 +1,6 @@
 package me.lotabout.rpn.calculator.operator.math;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +21,8 @@ public class MultiplyOpTest {
     MultiplyOp op = new MultiplyOp();
 
     List<RealNumber> operands =
-        Stream.of(0.5, 2D).map(RealNumber::new).collect(Collectors.toList());
+        Stream.of("0.5", "2").map(RealNumber::valueOf).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
-    assertEquals(1D, result.getValue(), 1e-5);
+    assertEquals(1, result.getValue().intValue());
   }
 }

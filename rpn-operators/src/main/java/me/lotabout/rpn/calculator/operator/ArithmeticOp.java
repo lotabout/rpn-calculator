@@ -1,5 +1,6 @@
 package me.lotabout.rpn.calculator.operator;
 
+import java.math.MathContext;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -10,6 +11,7 @@ import me.lotabout.rpn.repl.struct.ExecutionException;
 import me.lotabout.rpn.repl.struct.RealNumber;
 
 public abstract class ArithmeticOp implements Operator {
+  protected static final MathContext MATH_CONTEXT = new MathContext(30);
 
   protected abstract int getNumberOfOperands();
 

@@ -15,7 +15,7 @@ public class MinusOp extends ArithmeticOp {
 
   @Override
   protected RealNumber executeInner(List<RealNumber> operands) throws ExecutionException {
-    return new RealNumber(operands.get(1).getValue() - operands.get(0).getValue());
+    return new RealNumber(operands.get(1).getValue().subtract(operands.get(0).getValue()));
   }
 
   @Override

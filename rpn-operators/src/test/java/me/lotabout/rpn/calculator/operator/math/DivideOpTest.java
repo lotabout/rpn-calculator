@@ -22,15 +22,17 @@ public class DivideOpTest {
 
     // stack top: [1, 2]
     // => 2 / 1
-    List<RealNumber> operands = Stream.of(1, 2).map(RealNumber::new).collect(Collectors.toList());
+    List<RealNumber> operands =
+        Stream.of(1, 2).map(RealNumber::valueOf).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
-    assertEquals(2D, result.getValue(), 1e-5);
+    assertEquals(2, result.getValue().intValue());
   }
 
   @Test(expected = ArithmeticException.class)
   public void divideZero() {
     DivideOp op = new DivideOp();
-    List<RealNumber> operands = Stream.of(0, 2).map(RealNumber::new).collect(Collectors.toList());
+    List<RealNumber> operands =
+        Stream.of(0, 2).map(RealNumber::valueOf).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
   }
 }

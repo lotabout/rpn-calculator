@@ -67,7 +67,14 @@ stack:
 
 ## ChangeLog
 
-### 2012-01-12
+### 2021-01-14
+
+- `BigDecimal` support. Cause `double` could not represents financial numbers
+    correctly though its precision is around 15 digits.
+- Use [big-math](https://github.com/eobermuhlner/big-math) library for `sqrt`
+    implementation. `Math.sqrt` don't have enough precision.
+
+### 2021-01-12
 
 - Introduce Spring and replace SPI with Spring's autowire.
 - Realize that `Operator` is stateless. That means a single bean is enough, remove `OperatorReader`s.

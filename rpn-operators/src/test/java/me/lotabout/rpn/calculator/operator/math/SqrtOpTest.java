@@ -20,8 +20,8 @@ public class SqrtOpTest {
   public void plusShouldBeCorrect() {
     SqrtOp op = new SqrtOp();
 
-    List<RealNumber> operands = Stream.of(2D).map(RealNumber::new).collect(Collectors.toList());
+    List<RealNumber> operands = Stream.of(2).map(RealNumber::valueOf).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
-    assertEquals(1.4142135623D, result.getValue(), 1e-5);
+    assertEquals("1.4142135623", result.toString());
   }
 }

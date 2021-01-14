@@ -16,11 +16,7 @@ public class DivideOp extends ArithmeticOp {
 
   @Override
   protected RealNumber executeInner(List<RealNumber> operands) throws ExecutionException {
-    if (operands.get(0).getValue() - 0 < 1e-15) {
-      throw new ArithmeticException("Could not divide 0");
-    }
-
-    return new RealNumber(operands.get(1).getValue() / operands.get(0).getValue());
+    return new RealNumber(operands.get(1).getValue().divide(operands.get(0).getValue()));
   }
 
   @Override

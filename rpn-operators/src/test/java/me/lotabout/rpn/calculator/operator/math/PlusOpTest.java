@@ -21,8 +21,8 @@ public class PlusOpTest {
     PlusOp op = new PlusOp();
 
     List<RealNumber> operands =
-        Stream.of(0.5, 2D).map(RealNumber::new).collect(Collectors.toList());
+        Stream.of("0.5", "2").map(RealNumber::valueOf).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
-    assertEquals(2.5D, result.getValue(), 1e-5);
+    assertEquals(RealNumber.valueOf("2.5"), result);
   }
 }

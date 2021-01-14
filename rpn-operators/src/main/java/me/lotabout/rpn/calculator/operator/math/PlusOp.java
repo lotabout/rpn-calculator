@@ -16,7 +16,7 @@ public class PlusOp extends ArithmeticOp {
 
   @Override
   protected RealNumber executeInner(List<RealNumber> operands) throws ExecutionException {
-    return new RealNumber(operands.get(0).getValue() + operands.get(1).getValue());
+    return new RealNumber(operands.get(0).getValue().add(operands.get(1).getValue()));
   }
 
   @Override

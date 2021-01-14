@@ -22,8 +22,9 @@ public class MinusOpTest {
 
     // stack top: [1, 2]
     // => 2 - 1
-    List<RealNumber> operands = Stream.of(1, 2).map(RealNumber::new).collect(Collectors.toList());
+    List<RealNumber> operands =
+        Stream.of(1, 2).map(RealNumber::valueOf).collect(Collectors.toList());
     RealNumber result = op.executeInner(operands);
-    assertEquals(1D, result.getValue(), 1e-5);
+    assertEquals(1, result.getValue().intValue());
   }
 }

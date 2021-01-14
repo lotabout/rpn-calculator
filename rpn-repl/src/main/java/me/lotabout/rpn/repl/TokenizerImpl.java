@@ -65,8 +65,7 @@ public class TokenizerImpl implements Tokenizer {
 
   private NumberOp tryParse(String content) {
     try {
-      double number = Double.parseDouble(content);
-      return new NumberOp(new RealNumber(number));
+      return new NumberOp(RealNumber.valueOf(content));
     } catch (NumberFormatException _ignored) {
       return null;
     }
