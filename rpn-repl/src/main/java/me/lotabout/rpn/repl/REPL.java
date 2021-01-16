@@ -1,32 +1,41 @@
 package me.lotabout.rpn.repl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import me.lotabout.rpn.repl.context.DefaultContext;
+import me.lotabout.rpn.repl.context.History;
 import me.lotabout.rpn.repl.context.REPLContext;
 import me.lotabout.rpn.repl.struct.ExecutionException;
-import me.lotabout.rpn.repl.struct.Token;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import me.lotabout.rpn.repl.struct.RealNumber;
+import me.lotabout.rpn.repl.token.Token;
+import org.pcollections.PStack;
 
 /** Read-Evaluate-Print-Loop, main entry for driving the calculation process */
 @Slf4j
-@Service
 public class REPL {
   private final Tokenizer tokenizer;
-  private final Formatter formatter;
-  private final REPLContext REPLContext;
+  private final Formatter<RealNumber> formatter;
+  private final REPLContext<RealNumber, PStack<RealNumber>> context;
+  private final History<PStack<RealNumber>> history;
   private final Printer printer;
+  private final Map<String, Operator<RealNumber>> mathOps;
 
-  @Autowired
-  public REPL(Tokenizer tokenizer, Formatter formatter, Printer printer) {
-    this(new DefaultContext(), tokenizer, formatter, printer);
-  }
-
-  public REPL(REPLContext context, Tokenizer tokenizer, Formatter formatter, Printer printer) {
+  public REPL(
+      REPLContext<RealNumber, PStack<RealNumber>> context,
+      Tokenizer tokenizer,
+      Formatter<RealNumber> formatter,
+      Printer printer,
+      int historyCapacity,
+      List<Operator<RealNumber>> mathOps) {
     this.tokenizer = tokenizer;
     this.formatter = formatter;
     this.printer = printer;
-    this.REPLContext = context;
+    this.context = context;
+    this.history = new History<>(historyCapacity);
+    this.mathOps =
+        mathOps.stream().collect(Collectors.toMap(Operator::getName, Function.identity()));
   }
 
   /**
@@ -42,7 +51,7 @@ public class REPL {
         break;
       }
     }
-    printer.print(this.formatter.formatContext(this.REPLContext));
+    printer.print(this.formatter.formatContext(this.context));
   }
 
   /**
@@ -52,34 +61,78 @@ public class REPL {
    * @return true if op exist normally, false otherwise
    */
   public boolean execute(Token token) {
-    Operator op = token.getOperator();
+    boolean saveHistory = !token.getTokenType().isHistoryToken();
+    boolean exitNormally;
 
-    if (op != null && op.needToSaveResult()) {
-      this.REPLContext.checkpoint();
-    }
-
-    boolean exitNormally = true;
     try {
-      if (op == null) {
-        throw new ExecutionException(
-            String.format(
-                "unknown operator[%s, pos: %d~%d]",
-                token.getName(), token.getTokenStart(), token.getTokenEnd()));
+      if (saveHistory) {
+        this.history.save(this.context.snapshot());
       }
-      op.execute(this.REPLContext);
+
+      switch (token.getTokenType()) {
+        case NUMBER:
+          pushNumber(token);
+          break;
+        case UNDO:
+          undo(token);
+          break;
+        case REDO:
+          redo(token);
+          break;
+        case CLEAR:
+          clear(token);
+          break;
+        case MATH:
+          math(token);
+          break;
+      }
+      exitNormally = true;
     } catch (ExecutionException ex) {
       printer.print(this.formatter.formatError(token, ex));
       exitNormally = false;
     } catch (Exception ex) {
       log.error(
           "error on execute op[{}, pos: {}/{}]",
-          token.getName(),
+          token.getTokenType(),
           token.getTokenStart(),
           token.getTokenEnd(),
           ex);
       exitNormally = false;
     }
 
+    if (!exitNormally && saveHistory) {
+      this.history.undo();
+    }
     return exitNormally;
+  }
+
+  private void math(Token token) {
+    // retrieve math operator
+    Operator<RealNumber> op = mathOps.get(token.getContent());
+    if (op == null) {
+      String error =
+          String.format("Unknown op[%s], pos: %s", token.getContent(), token.getTokenStart());
+      throw new ExecutionException(error);
+    }
+
+    op.execute(this.context);
+  }
+
+  private void clear(Token _token) {
+    this.history.clear();
+    this.context.clear();
+  }
+
+  private void undo(Token _token) {
+    this.history.undo().ifPresent(this.context::restoreFrom);
+  }
+
+  private void redo(Token _token) {
+    this.history.redo().ifPresent(this.context::restoreFrom);
+  }
+
+  private void pushNumber(Token token) {
+    RealNumber realNumber = RealNumber.valueOf(token.getContent());
+    this.context.push(realNumber);
   }
 }

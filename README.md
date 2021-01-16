@@ -10,14 +10,6 @@ extensible and testable and fun.
 ```console
 $ mvn clean package
 $ java -jar rpn-console-calculator/target/rpn-console-calculator-1.0-SNAPSHOT-jar-with-dependencies.jar
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: ClearOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: DivideOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: MinusOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: MultiplyOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: PlusOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: RealNumberOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: SqrtOpReader
-[main] INFO me.lotabout.rpn.console.ConsoleCalculator - Loading Reader: UndoOpReader
 Type in RRNs(reverse polish notation) to start calculation, Ctrl-D to exit
 4 5
 stack: 4 5
@@ -43,29 +35,37 @@ stack:
     stack: 3 -1
     ```
 * Easy for extending operators
-    * New operators could simply provide a regex for parsing.
-    * With the help of SPI, no need to modify existing code for adding operators
-* Pluggable Components for making your own calculator. The calculator is
-  divided into 3 major components, all of them are customizable:
-    * `Tokenizer` for lexing: parsing input lines into operators/tokens.
-    * `Printer` for representing the calculation context, e.g. the stack of numbers.
-    * `OutputConsumer` for actually output the representation. The output goes to console by default.
+    * extend `ArithmeticOp` class and mark it `@Component` and ready to go
+* Properly abstracted. Easy tweaking the components for your own need. For
+  example default implementation would show the contents on console, could
+  easily implement `Printer` to send the results to HTTP responses.
 
 ## Show me the code
 
-- `rpn-repl`: contains the abstractions of a REPL, and a default implementation of REPLContext that handles stack and
-  history manipulation.
-- `rpn-calculator`:
-  * implement calculator's own `formatter` and `tokenizer`
-  * implement `RealNumber`, the main operand of operators
-  * abstraction of `RealNumberOperator` and `RealNumberOperatorReader`
-  * abstractions of `ArithmeticOp` and `HistoryOp`
-- `rpn-operators`: pluggable package that implement operators and operator readers.
-- `rpn-console-calculator`:
+- `rpn-console-calculator`: Main entry that construct and run a REPL.
   * implement console based read/write utility
   * create instances of components and wire them up.
+- `rpn-repl`: contains the abstractions of a REPL.
+  * `Tokenizer` will transform input string into tokens;
+  * `REPL` itself would lookup the corresponding operators and execute them
+  * operators are passed a `CalcContext` they can operate on
+  * implement `RealNumber`, the main operand of operators
+  * `Formatter` is used for formatting the context and error messages
+  * `Printer` would be needed to print the formatted messages, be it console
+      or HTTP responses.
+  * `RealNumber` is built upon `BigDecimal` for keeping enough precisions(>=15).
+- `rpn-operators`: pluggable package that implement operators.
 
 ## ChangeLog
+
+### 2021-01-16
+
+- Segregate history management from math ops.
+    * Take "memento pattern"'s idea and `Context` handles only save/restore
+        snapshot, but not the `undo/redo` function.
+    * `REPL` now deal with `undo/redo` cause the history management operators
+        are finite and special(different from math ops).
+- `Tokenizer` now returns tokens, not ops.
 
 ### 2021-01-14
 
@@ -76,7 +76,7 @@ stack:
 
 ### 2021-01-12
 
-- Introduce Spring and replace SPI with Spring's autowire.
+- Introduce Spring and replace SPI with Spring's `@autowire`.
 - Realize that `Operator` is stateless. That means a single bean is enough, remove `OperatorReader`s.
 - Introduce wrapper class `Token` that wraps positions and `Operator` to be executed.
 - Make `Context` specific, because it's too complex and unnecessary to introduce generic.

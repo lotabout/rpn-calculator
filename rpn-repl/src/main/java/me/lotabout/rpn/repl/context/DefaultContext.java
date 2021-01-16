@@ -6,16 +6,12 @@ import me.lotabout.rpn.repl.struct.RealNumber;
 import org.pcollections.ConsPStack;
 import org.pcollections.PStack;
 
-public class DefaultContext implements REPLContext {
-  private final History<PStack<RealNumber>> history;
-  private PStack<RealNumber> stack; // an immutable stack
+public class DefaultContext implements REPLContext<RealNumber, PStack<RealNumber>> {
+
+  // Note: PStack is an immutable class. It's save to pass it around, store, restore, ...
+  private PStack<RealNumber> stack;
 
   public DefaultContext() {
-    this(1024);
-  }
-
-  public DefaultContext(int historyCapacity) {
-    this.history = new History<>(historyCapacity);
     this.stack = ConsPStack.empty();
   }
 
@@ -41,23 +37,17 @@ public class DefaultContext implements REPLContext {
   }
 
   @Override
-  public void checkpoint() {
-    this.history.save(this.stack);
-  }
-
-  @Override
   public void clear() {
     this.stack = ConsPStack.empty();
-    this.history.clear();
   }
 
   @Override
-  public void undo() {
-    this.stack = this.history.undo().orElseGet(ConsPStack::empty);
+  public PStack<RealNumber> snapshot() {
+    return this.stack;
   }
 
   @Override
-  public void redo() {
-    this.history.redo().ifPresent(stack -> this.stack = stack);
+  public void restoreFrom(PStack<RealNumber> snapshot) {
+    this.stack = snapshot;
   }
 }
